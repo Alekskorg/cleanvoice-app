@@ -1,21 +1,18 @@
 
- 
-          <!DOCTYPE html><html lang="ru"><head>
-<meta charset="UTF-8">
-<title>CleanVoice</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- React и Babel напрямую из CDN -->
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head><body>
+ <!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>CleanVoice</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- React и Babel напрямую из CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
   <div id="root"></div>
-
-
-<script
-  type="text/babel"
-  data-presets="env,react"
-  src="cleanvoice.js">
-</script>
-
-</body></html>
+  <!-- Подключаем только cleanvoice.js с data-presets -->
+  <script type="text/babel" data-presets="env,react" src="cleanvoice.js"></script>
+</body>
+</html>
