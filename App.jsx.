@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { CloudUpload, CheckCircle } from "lucide-react";
 
-export default function CleanVoiceApp() {
+export default function NoiseGone() {
   /** UI state */
   const [file, setFile] = useState<File | null>(null);
   const [stage, setStage] = useState<"idle" | "uploading" | "processing" | "done">("idle");
