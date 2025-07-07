@@ -1,4 +1,4 @@
-function CleanVoiceApp() {
+function NoiseGoneApp() {
   const [file, setFile] = React.useState(null);
   const [processing, setProcessing] = React.useState(false);
   const [resultUrl, setResultUrl] = React.useState('');
@@ -47,4 +47,4 @@ function CleanVoiceApp() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<CleanVoiceApp />);
+root.render(<NoiseGone />);
