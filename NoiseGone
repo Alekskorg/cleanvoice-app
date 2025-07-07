@@ -1,3 +1,7 @@
+// NoiseGone - React приложение для онлайн‑очистки аудио
+// Логотип: public/logo.png, favicon: public/favicon.png
+// Демо‑режим: имитация обработки 2 cек.
+
 import React from "react";
 
 export default function NoiseGoneApp() {
