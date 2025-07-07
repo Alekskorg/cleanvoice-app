@@ -26,7 +26,7 @@ function CleanVoiceApp() {
 
   return (
     <div style={{padding: 24, maxWidth: 420, margin: '0 auto'}}>
-      <h1>CleanVoice</h1>
+     <h1>NoiseGone</h1>
       <p>Загрузите аудиофайл для очистки от шумов:</p>
       <input type="file" accept="audio/*" onChange={handleFileChange} />
       <br/><br/>
