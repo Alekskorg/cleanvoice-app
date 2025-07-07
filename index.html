@@ -1,121 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
- <title>NoiseGone — очистка звука от шума</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body<div style="text-align: center; margin-top: 30px;">
-  <img src="logo.png" alt="NoiseGone Logo" style="max-width: 200px;">
-</div>
-<img src="logo.png" alt="NoiseGone Logo" style="max-width: 200px; margin: 20px auto; display: block;">
- { font-family: Arial, sans-serif; background: #f3f4f6; margin: 0; padding: 0; }
-    .container { max-width: 500px; margin: 60px auto; padding: 30px; background: #fff; border-radius: 18px; box-shadow: 0 2px 10px #0001; }
-    h1 { margin-bottom: 10px; font-size: 2rem; color: #1a1a1a;}
-    .info { color: #888; font-size: 0.95rem; margin-bottom: 20px;}
-    label, input[type="file"] { display: block; margin: 12px 0;}
-    button { padding: 10px 22px; font-size: 1rem; border-radius: 8px; border: none; background: #0e7ee7; color: #fff; cursor: pointer;}
-    button:disabled { background: #ccc; }
-    .hidden { display: none; }
-    .result { margin-top: 24px;}
-    .progress { margin: 18px 0;}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>CleanVoice</h1>
-    <div class="info">Загрузите аудиофайл для очистки от шумов (до 10 МБ, mp3/wav/m4a)</div>
-    <input type="file" id="audiofile" accept="audio/*">
-    <button id="processBtn" disabled>Очистить</button>
-    <div class="progress" id="progress"></div>
-    <div class="result" id="result"></div>
-  </div>
-<script>
-const processBtn = document.getElementById('processBtn');
-const audiofile = document.getElementById('audiofile');
-const progress = document.getElementById('progress');
-const result = document.getElementById('result');
-let selectedFile = null;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-// Dolby.io бесплатное API — получи API-ключ по инструкции ниже!
-const API_KEY = 'ВСТАВЬ_СВОЙ_КЛЮЧ_ЗДЕСЬ';
+    <!-- SEO -->
+    <title>NoiseGone — очистка аудио от шумов онлайн</title>
+    <meta name="description"
+          content="NoiseGone — AI-сервис, который удаляет фоновый шум из аудио за пару секунд. Загрузите файл и скачайте чистый звук бесплатно." />
 
-// 1. После регистрации на https://dolby.io/ — создай проект и получи API-ключ (API Key).
-// 2. Вставь его вместо 'ВСТАВЬ_СВОЙ_КЛЮЧ_ЗДЕСЬ' выше.
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+  </head>
 
-audiofile.addEventListener('change', (e) => {
-  selectedFile = e.target.files[0];
-  processBtn.disabled = !selectedFile;
-  result.innerHTML = '';
-});
-
-processBtn.onclick = async () => {
-  if (!selectedFile) return;
-  processBtn.disabled = true;
-  progress.innerText = 'Загружаем файл...';
-
-  // 1. Загрузить файл в Dolby.io storage (стандартная процедура)
-  const uploadUrlResp = await fetch('https://api.dolby.com/media/input', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + btoa(API_KEY + ':'),
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
-  const uploadUrlData = await uploadUrlResp.json();
-  const uploadUrl = uploadUrlData.url;
-
-  // 2. Закинуть файл на storage
-  await fetch(uploadUrl, {
-    method: 'PUT',
-    headers: { 'Content-Type': selectedFile.type },
-    body: selectedFile
-  });
-  const inputUrl = uploadUrlData.url.split('?')[0];
-
-  progress.innerText = 'Обрабатываем...';
-
-  // 3. Запросить очистку шума
-  const enhanceResp = await fetch('https://api.dolby.com/media/enhance', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + btoa(API_KEY + ':'),
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      input: inputUrl,
-      output: inputUrl.replace('/input/', '/output/')
-    })
-  });
-  const enhanceData = await enhanceResp.json();
-  const jobId = enhanceData.job_id;
-
-  // 4. Ждём завершения (polling)
-  let status = '';
-  let outputUrl = inputUrl.replace('/input/', '/output/');
-  for (let i = 0; i < 30; i++) {
-    await new Promise(r => setTimeout(r, 4000));
-    const statusResp = await fetch('https://api.dolby.com/media/enhance/' + jobId, {
-      headers: { 'Authorization': 'Basic ' + btoa(API_KEY + ':') }
-    });
-    const statusData = await statusResp.json();
-    status = statusData.status;
-    if (status === 'Success') break;
-    if (status === 'Failed') {
-      progress.innerText = 'Ошибка обработки!';
-      processBtn.disabled = false;
-      return;
-    }
-    progress.innerText = 'Обработка... (' + status + ')';
-  }
-
-  // 5. Скачиваем очищенный файл
-  progress.innerText = 'Готово! Скачиваем результат...';
-  result.innerHTML = `<a href="${outputUrl}" download="cleanvoice_${selectedFile.name}" target="_blank">Скачать очищенный файл</a>`;
-  processBtn.disabled = false;
-};
-</script>
-</body>
+  <body>
+    <div id="root"></div>
+    <!-- React скрипты подключает Vite / CRA автоматически -->
+  </body>
 </html>
+
+
+  
