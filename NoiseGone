@@ -1,12 +1,16 @@
-function NoiseGoneApp() {
+import React from "react";
+
+export default function NoiseGoneApp() {
   const [file, setFile] = React.useState(null);
   const [processing, setProcessing] = React.useState(false);
   const [resultUrl, setResultUrl] = React.useState('');
 
   const handleFileChange = (e) => {
     const uploaded = e.target.files[0];
-    setFile(uploaded);
-    setResultUrl('');
+    if (uploaded) {
+      setFile(uploaded);
+      setResultUrl('');
+    }
   };
 
   const handleProcess = () => {
@@ -14,37 +18,59 @@ function NoiseGoneApp() {
       alert('Сначала выберите файл!');
       return;
     }
+
     setProcessing(true);
-    // Имитация “очистки” аудио — просто таймер, чтобы показать процесс
+
     setTimeout(() => {
-      setProcessing(false);
-      // Демонстрационный результат — просто возвращаем тот же файл (для настоящей обработки тут будет backend)
       const url = URL.createObjectURL(file);
       setResultUrl(url);
+      setProcessing(false);
     }, 2000);
   };
 
   return (
-    <div style={{padding: 24, maxWidth: 420, margin: '0 auto'}}>
-     <h1>NoiseGone</h1>
+    <div style={{
+      padding: 24,
+      maxWidth: 480,
+      margin: '0 auto',
+      fontFamily: 'Arial, sans-serif',
+      textAlign: 'center'
+    }}>
+      <img src="/логотип.png" alt="Логотип NoiseGone" style={{ width: 160, marginBottom: 12 }} />
+      <h1>NoiseGone</h1>
       <p>Загрузите аудиофайл для очистки от шумов:</p>
+
       <input type="file" accept="audio/*" onChange={handleFileChange} />
-      <br/><br/>
-      <button onClick={handleProcess} disabled={!file || processing}>
-        {processing ? "Обработка..." : "Очистить"}
+      <br /><br />
+
+      <button
+        onClick={handleProcess}
+        disabled={!file || processing}
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#3f51b5',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '6px',
+          cursor: file && !processing ? 'pointer' : 'not-allowed',
+          opacity: file && !processing ? 1 : 0.5
+        }}
+      >
+        {processing ? "⏳ Обработка..." : "Очистить"}
       </button>
-      <br/><br/>
+
+      <br /><br />
+
       {resultUrl && (
         <div>
-          <h4>Готово! Скачайте очищенный файл:</h4>
-          <audio controls src={resultUrl}></audio>
-          <br/>
-          <a href={resultUrl} download="cleaned-audio.mp3">Скачать</a>
+          <h4>✅ Готово! Скачайте очищенный файл:</h4>
+          <audio controls src={resultUrl} style={{ width: '100%' }}></audio>
+          <br /><br />
+          <a href={resultUrl} download="cleaned-audio.mp3">⬇️ Скачать</a>
         </div>
       )}
     </div>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<NoiseGone />);
+
